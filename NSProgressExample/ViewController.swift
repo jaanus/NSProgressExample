@@ -15,6 +15,8 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        worker1 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
+        worker2 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
         // Do any additional setup after loading the view.
     }
 
@@ -25,14 +27,7 @@ class ViewController: NSViewController {
     }
 
     @IBAction func start(sender: AnyObject) {
-        
-        worker1 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
-        worker1!.showWindow(self)
-
-        worker2 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
-        worker2!.showWindow(self)
-
+        worker1?.showWindow(self)
+        worker2?.showWindow(self)
     }
-
 }
-
