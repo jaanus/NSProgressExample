@@ -10,6 +10,8 @@ import Cocoa
 
 class ViewController: NSViewController {
 
+    var worker1, worker2: NSWindowController?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -22,6 +24,15 @@ class ViewController: NSViewController {
         }
     }
 
+    @IBAction func start(sender: AnyObject) {
+        
+        worker1 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
+        worker1!.showWindow(self)
+
+        worker2 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
+        worker2!.showWindow(self)
+
+    }
 
 }
 
