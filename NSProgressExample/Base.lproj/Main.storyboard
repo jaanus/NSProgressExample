@@ -685,7 +685,7 @@
         <!--Worker VC-->
         <scene sceneID="YRf-f3-EWd">
             <objects>
-                <viewController id="1Yb-Vk-TfR" userLabel="Worker VC" sceneMemberID="viewController">
+                <viewController id="1Yb-Vk-TfR" userLabel="Worker VC" customClass="ChildViewController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="dCa-PL-84n">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>

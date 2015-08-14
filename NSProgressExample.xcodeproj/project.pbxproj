@@ -11,6 +11,7 @@
 		EA57B4FA1B7E05900060CBFD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57B4F91B7E05900060CBFD /* ViewController.swift */; };
 		EA57B4FC1B7E05900060CBFD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA57B4FB1B7E05900060CBFD /* Assets.xcassets */; };
 		EA57B4FF1B7E05900060CBFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA57B4FD1B7E05900060CBFD /* Main.storyboard */; };
+		EA57B5071B7E0EF50060CBFD /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		EA57B4FB1B7E05900060CBFD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EA57B4FE1B7E05900060CBFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EA57B5001B7E05900060CBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				EA57B4F71B7E05900060CBFD /* AppDelegate.swift */,
 				EA57B4F91B7E05900060CBFD /* ViewController.swift */,
+				EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */,
 				EA57B4FB1B7E05900060CBFD /* Assets.xcassets */,
 				EA57B4FD1B7E05900060CBFD /* Main.storyboard */,
 				EA57B5001B7E05900060CBFD /* Info.plist */,
@@ -132,6 +135,7 @@
 			files = (
 				EA57B4FA1B7E05900060CBFD /* ViewController.swift in Sources */,
 				EA57B4F81B7E05900060CBFD /* AppDelegate.swift in Sources */,
+				EA57B5071B7E0EF50060CBFD /* ChildViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
