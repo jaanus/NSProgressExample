@@ -17,6 +17,7 @@ class ProgressSheetViewController: NSViewController {
 
     @IBOutlet weak var controlsContainerView: NSStackView!
     @IBOutlet weak var sheetLabel: NSTextField!
+    @IBOutlet weak var controlsContainerBottomMarginConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +27,19 @@ class ProgressSheetViewController: NSViewController {
     }
 
     func setupInterface() {
-        let interfaceSource = self.presentingViewController as! ProgressSheetInterface
-        if !interfaceSource.sheetUserInteractive {
-            controlsContainerView.hidden = true
-        }
-        if let interfaceLabel = interfaceSource.sheetLabel {
-            sheetLabel.stringValue = interfaceLabel
+        if let interfaceSource = self.presentingViewController as? ProgressSheetInterface {
+            if !interfaceSource.sheetUserInteractive {
+                // if the buttons are not to be shown, hide them,
+                // and also deactivate the constraint that is holding them in place,
+                // so that the bottom margin of the progress bar kicks in
+                // to constrain the sheet height.
+                controlsContainerView.hidden = true
+                controlsContainerBottomMarginConstraint.active = false
+            }
+            if let interfaceLabel = interfaceSource.sheetLabel {
+                sheetLabel.stringValue = interfaceLabel
+            }
+            
         }
     }
     

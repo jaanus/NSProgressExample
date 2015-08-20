@@ -748,23 +748,26 @@
         <scene sceneID="jB5-gz-A3y">
             <objects>
                 <viewController id="8ym-gb-b9j" customClass="ProgressSheetViewController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" verticalHuggingPriority="1000" id="vQf-7g-MQD">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                    <view key="view" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" id="vQf-7g-MQD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <progressIndicator maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="pgy-UE-EEO">
-                                <rect key="frame" x="20" y="48" width="410" height="208"/>
+                            <progressIndicator verticalHuggingPriority="1000" maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="pgy-UE-EEO">
+                                <rect key="frame" x="20" y="48" width="280" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="256" id="mg4-Yh-SNr"/>
+                                </constraints>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fZx-Ic-Jyp">
-                                <rect key="frame" x="181" y="263" width="88" height="17"/>
+                                <rect key="frame" x="116" y="75" width="88" height="17"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Doing work…" id="yoQ-22-YZy">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VQN-ri-h3B">
-                                <rect key="frame" x="152" y="20" width="146" height="21"/>
+                            <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VQN-ri-h3B">
+                                <rect key="frame" x="87" y="20" width="146" height="21"/>
                                 <middleViews>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ye-df-Kis">
                                         <rect key="frame" x="-6" y="-7" width="82" height="32"/>
@@ -800,6 +803,7 @@ Gw
                             <constraint firstItem="pgy-UE-EEO" firstAttribute="leading" secondItem="vQf-7g-MQD" secondAttribute="leading" constant="20" symbolic="YES" id="FrR-wh-phr"/>
                             <constraint firstAttribute="bottom" secondItem="VQN-ri-h3B" secondAttribute="bottom" constant="20" symbolic="YES" id="Hhe-ig-aUn"/>
                             <constraint firstItem="VQN-ri-h3B" firstAttribute="top" secondItem="pgy-UE-EEO" secondAttribute="bottom" constant="8" symbolic="YES" id="HqM-fP-hgF"/>
+                            <constraint firstAttribute="bottom" secondItem="pgy-UE-EEO" secondAttribute="bottom" priority="750" constant="20" symbolic="YES" id="J0B-iR-te0"/>
                             <constraint firstItem="VQN-ri-h3B" firstAttribute="centerX" secondItem="vQf-7g-MQD" secondAttribute="centerX" id="Pjo-Jc-oqw"/>
                             <constraint firstItem="fZx-Ic-Jyp" firstAttribute="top" secondItem="vQf-7g-MQD" secondAttribute="top" constant="20" symbolic="YES" id="bK6-jg-7Oc"/>
                             <constraint firstItem="fZx-Ic-Jyp" firstAttribute="centerX" secondItem="vQf-7g-MQD" secondAttribute="centerX" id="des-pa-7f2"/>
@@ -808,13 +812,14 @@ Gw
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="controlsContainerBottomMarginConstraint" destination="Hhe-ig-aUn" id="AZV-5u-5X6"/>
                         <outlet property="controlsContainerView" destination="VQN-ri-h3B" id="L1d-WN-phg"/>
                         <outlet property="sheetLabel" destination="fZx-Ic-Jyp" id="eZh-Hy-XP5"/>
                     </connections>
                 </viewController>
                 <customObject id="YuP-D0-Zft" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1141"/>
+            <point key="canvasLocation" x="75" y="1101"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

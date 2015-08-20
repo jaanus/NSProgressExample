@@ -8,6 +8,8 @@
 
 import Cocoa
 
+
+
 class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetInterface {
 
     // NSProgressReporting
@@ -24,6 +26,14 @@ class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetI
     
     override func viewDidAppear() {
         self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
+        
+        delay(2, closure: {
+            print("oh hai")
+            // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
+            // This assumes that the only possible presented sheet is the progress sheet.
+            self.dismissViewController((self.presentedViewControllers?.first)!)
+        })
+        
     }
     
     
@@ -39,5 +49,14 @@ class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetI
         get {
             return "Doing child work…"
         }
+    }
+    
+    func delay(delay:Double, closure:()->()) {
+        dispatch_after(
+            dispatch_time(
+                DISPATCH_TIME_NOW,
+                Int64(delay * Double(NSEC_PER_SEC))
+            ),
+            dispatch_get_main_queue(), closure)
     }
 }
