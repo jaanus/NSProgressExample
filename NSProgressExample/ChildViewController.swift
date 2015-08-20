@@ -8,7 +8,12 @@
 
 import Cocoa
 
-class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetInterface {
+protocol ChildTaskInterface: NSProgressReporting {
+    func startTaskWithDuration(duration: Float)
+}
+
+// Why do I have to explicitly add NSProgressReporting here? ChildTaskInterface should cover it, no?
+class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetInterface, NSProgressReporting {
 
     @IBOutlet weak var statusLabel: NSTextField!
     
@@ -26,8 +31,7 @@ class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetI
     
     override func viewDidAppear() {
         
-        longComputationTask()
-        self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
+//        longComputationTask()
         
         delay(2, closure: {
             print("oh hai")
@@ -60,12 +64,17 @@ class ChildViewController: NSViewController, NSProgressReporting, ProgressSheetI
             dispatch_get_main_queue(), closure)
     }
     
-    func longComputationTask() {
+    func startTaskWithDuration(taskDuration: Float) {
         let iterationLength = Float(0.05)
-        let taskDuration = Float(3)
         let iterationCount: Int64 = Int64(taskDuration / iterationLength)
         
         progress = NSProgress(totalUnitCount: iterationCount)
+
+        // Should perform this segue only after the new progress property has created,
+        // so that the progress sheet would be observing the right progress object
+        self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
+
+        
         progress.cancellationHandler = {
             self.taskFinished(cancelled: true)
         }

@@ -34,6 +34,11 @@ class ViewController: NSViewController, NSProgressReporting, ProgressSheetInterf
         worker1?.showWindow(self)
         worker2?.showWindow(self)
         
+        if let worker1 = worker1 as? ChildTaskInterface, worker2 = worker2 as? ChildTaskInterface {
+            worker1.startTaskWithDuration(3)
+            worker2.startTaskWithDuration(4)
+        }
+        
         performSegueWithIdentifier("presentProgressSheet", sender: self)
     }
     

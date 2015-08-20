@@ -70,8 +70,9 @@ class ProgressSheetViewController: NSViewController {
         }
         
         dispatch_async(dispatch_get_main_queue()) {
-            let progressSource = self.presentingViewController as! NSProgressReporting
-            self.progressIndicatorView.doubleValue = progressSource.progress.fractionCompleted
+            if let progressSource = self.presentingViewController as? NSProgressReporting {
+                self.progressIndicatorView.doubleValue = progressSource.progress.fractionCompleted
+            }
         }
     }
     

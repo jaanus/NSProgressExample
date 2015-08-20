@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ChildWindowController: NSWindowController, NSProgressReporting {
+class ChildWindowController: NSWindowController, ChildTaskInterface {
 
     override func windowDidLoad() {
         super.windowDidLoad()
@@ -16,22 +16,16 @@ class ChildWindowController: NSWindowController, NSProgressReporting {
         // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
     }
     
-    var secondsToRun: Float {
-        get {
-            let childViewController = self.contentViewController as! ChildViewController
-            return childViewController.secondsToRun
-        }
-        set {
-            let childViewController = self.contentViewController as! ChildViewController
-            childViewController.secondsToRun = secondsToRun
-        }
-    }
+    // MARK: - ChildTaskInterface
     
-    // MARK: - NSProgressReporting
+    func startTaskWithDuration(duration: Float) {
+        let childViewController = self.contentViewController as! ChildTaskInterface
+        childViewController.startTaskWithDuration(duration)
+    }
     
     var progress: NSProgress {
         get {
-            let childViewController = self.contentViewController as! ChildViewController
+            let childViewController = self.contentViewController as! ChildTaskInterface
             return childViewController.progress
         }
     }
