@@ -8,6 +8,11 @@
 
 import Cocoa
 
+protocol ProgressSheetInterface {
+    var sheetUserInteractive: Bool { get }
+    var sheetLabel: String? { get }
+}
+
 class ProgressSheetViewController: NSViewController {
 
     @IBOutlet weak var controlsContainerView: NSStackView!

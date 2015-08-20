@@ -15,7 +15,6 @@
 		EAFEE6221B85EBBD004CD02E /* ChildWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */; };
 		EAFEE6241B85F498004CD02E /* SheetSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6231B85F498004CD02E /* SheetSegue.swift */; };
 		EAFEE6261B85F77E004CD02E /* ProgressSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6251B85F77E004CD02E /* ProgressSheetViewController.swift */; };
-		EAFEE6281B85FA72004CD02E /* ProgressSheetInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6271B85FA72004CD02E /* ProgressSheetInterface.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,7 +28,6 @@
 		EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildWindowController.swift; sourceTree = "<group>"; };
 		EAFEE6231B85F498004CD02E /* SheetSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetSegue.swift; sourceTree = "<group>"; };
 		EAFEE6251B85F77E004CD02E /* ProgressSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetViewController.swift; sourceTree = "<group>"; };
-		EAFEE6271B85FA72004CD02E /* ProgressSheetInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetInterface.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +62,6 @@
 			children = (
 				EA57B4F71B7E05900060CBFD /* AppDelegate.swift */,
 				EA57B4F91B7E05900060CBFD /* ViewController.swift */,
-				EAFEE6271B85FA72004CD02E /* ProgressSheetInterface.swift */,
 				EAFEE6231B85F498004CD02E /* SheetSegue.swift */,
 				EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */,
 				EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */,
@@ -147,7 +144,6 @@
 			files = (
 				EA57B4FA1B7E05900060CBFD /* ViewController.swift in Sources */,
 				EA57B4F81B7E05900060CBFD /* AppDelegate.swift in Sources */,
-				EAFEE6281B85FA72004CD02E /* ProgressSheetInterface.swift in Sources */,
 				EAFEE6221B85EBBD004CD02E /* ChildWindowController.swift in Sources */,
 				EAFEE6261B85F77E004CD02E /* ProgressSheetViewController.swift in Sources */,
 				EA57B5071B7E0EF50060CBFD /* ChildViewController.swift in Sources */,
