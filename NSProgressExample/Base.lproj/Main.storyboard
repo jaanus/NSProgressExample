@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8164.2" systemVersion="14E46" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8164.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -667,7 +667,7 @@
         <!--Worker-->
         <scene sceneID="qgI-NZ-gR6">
             <objects>
-                <windowController storyboardIdentifier="Worker" id="FBG-nv-Z4t" userLabel="Worker" sceneMemberID="viewController">
+                <windowController storyboardIdentifier="Worker" id="FBG-nv-Z4t" userLabel="Worker" customClass="ChildWindowController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="pYp-b7-dkB">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -682,10 +682,10 @@
             </objects>
             <point key="canvasLocation" x="795" y="292"/>
         </scene>
-        <!--Worker VC-->
+        <!--Child VC-->
         <scene sceneID="YRf-f3-EWd">
             <objects>
-                <viewController id="1Yb-Vk-TfR" userLabel="Worker VC" customClass="ChildViewController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="1Yb-Vk-TfR" userLabel="Child VC" customClass="ChildViewController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="dCa-PL-84n">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -704,6 +704,9 @@
                             <constraint firstItem="2YS-Rw-BqG" firstAttribute="top" secondItem="dCa-PL-84n" secondAttribute="top" constant="20" symbolic="YES" id="lyt-wi-ULd"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="8ym-gb-b9j" kind="sheet" identifier="presentProgressSheetFromChild" id="ilz-Pw-h22"/>
+                    </connections>
                 </viewController>
                 <customObject id="y1j-Bw-g3E" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -733,10 +736,88 @@
                             <constraint firstItem="H2X-Ho-UdC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="zWU-kU-4rx"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <segue destination="8ym-gb-b9j" kind="sheet" identifier="presentProgressSheet" id="nqe-CD-WeP"/>
+                    </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="75" y="655"/>
         </scene>
+        <!--Progress Sheet View Controller-->
+        <scene sceneID="jB5-gz-A3y">
+            <objects>
+                <viewController id="8ym-gb-b9j" customClass="ProgressSheetViewController" customModule="NSProgressExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" verticalHuggingPriority="1000" id="vQf-7g-MQD">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <progressIndicator maxValue="100" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="pgy-UE-EEO">
+                                <rect key="frame" x="20" y="48" width="410" height="208"/>
+                            </progressIndicator>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fZx-Ic-Jyp">
+                                <rect key="frame" x="181" y="263" width="88" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Doing work…" id="yoQ-22-YZy">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VQN-ri-h3B">
+                                <rect key="frame" x="152" y="20" width="146" height="21"/>
+                                <middleViews>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ye-df-Kis">
+                                        <rect key="frame" x="-6" y="-7" width="82" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="32m-Am-Vek">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                            <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                        </buttonCell>
+                                    </button>
+                                </middleViews>
+                                <endViews>
+                                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AWF-s9-Uj2">
+                                        <rect key="frame" x="-6" y="-7" width="80" height="32"/>
+                                        <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lTL-TB-NSv">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                </endViews>
+                                <visibilityPriorities>
+                                    <integer value="1000"/>
+                                    <integer value="1000"/>
+                                </visibilityPriorities>
+                                <customSpacing>
+                                    <real value="3.4028234663852886e+38"/>
+                                    <real value="3.4028234663852886e+38"/>
+                                </customSpacing>
+                            </stackView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="pgy-UE-EEO" firstAttribute="leading" secondItem="vQf-7g-MQD" secondAttribute="leading" constant="20" symbolic="YES" id="FrR-wh-phr"/>
+                            <constraint firstAttribute="bottom" secondItem="VQN-ri-h3B" secondAttribute="bottom" constant="20" symbolic="YES" id="Hhe-ig-aUn"/>
+                            <constraint firstItem="VQN-ri-h3B" firstAttribute="top" secondItem="pgy-UE-EEO" secondAttribute="bottom" constant="8" symbolic="YES" id="HqM-fP-hgF"/>
+                            <constraint firstItem="VQN-ri-h3B" firstAttribute="centerX" secondItem="vQf-7g-MQD" secondAttribute="centerX" id="Pjo-Jc-oqw"/>
+                            <constraint firstItem="fZx-Ic-Jyp" firstAttribute="top" secondItem="vQf-7g-MQD" secondAttribute="top" constant="20" symbolic="YES" id="bK6-jg-7Oc"/>
+                            <constraint firstItem="fZx-Ic-Jyp" firstAttribute="centerX" secondItem="vQf-7g-MQD" secondAttribute="centerX" id="des-pa-7f2"/>
+                            <constraint firstAttribute="trailing" secondItem="pgy-UE-EEO" secondAttribute="trailing" constant="20" symbolic="YES" id="tdc-RH-z4K"/>
+                            <constraint firstItem="pgy-UE-EEO" firstAttribute="top" secondItem="fZx-Ic-Jyp" secondAttribute="bottom" constant="8" symbolic="YES" id="wci-FN-mFl"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="controlsContainerView" destination="VQN-ri-h3B" id="L1d-WN-phg"/>
+                        <outlet property="sheetLabel" destination="fZx-Ic-Jyp" id="eZh-Hy-XP5"/>
+                    </connections>
+                </viewController>
+                <customObject id="YuP-D0-Zft" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="75" y="1141"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="ilz-Pw-h22"/>
+    </inferredMetricsTieBreakers>
 </document>
