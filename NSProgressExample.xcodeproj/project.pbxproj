@@ -14,7 +14,6 @@
 		EA57B4FF1B7E05900060CBFD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA57B4FD1B7E05900060CBFD /* Main.storyboard */; };
 		EA57B5071B7E0EF50060CBFD /* ChildViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */; };
 		EAFEE6221B85EBBD004CD02E /* ChildWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */; };
-		EAFEE6241B85F498004CD02E /* SheetSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6231B85F498004CD02E /* SheetSegue.swift */; };
 		EAFEE6261B85F77E004CD02E /* ProgressSheetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAFEE6251B85F77E004CD02E /* ProgressSheetViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -28,7 +27,6 @@
 		EA57B5001B7E05900060CBFD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildViewController.swift; sourceTree = "<group>"; };
 		EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChildWindowController.swift; sourceTree = "<group>"; };
-		EAFEE6231B85F498004CD02E /* SheetSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetSegue.swift; sourceTree = "<group>"; };
 		EAFEE6251B85F77E004CD02E /* ProgressSheetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressSheetViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -65,7 +63,6 @@
 				EA1B7EB21B87146D00B81243 /* Task.swift */,
 				EA57B4F71B7E05900060CBFD /* AppDelegate.swift */,
 				EA57B4F91B7E05900060CBFD /* ViewController.swift */,
-				EAFEE6231B85F498004CD02E /* SheetSegue.swift */,
 				EA57B5061B7E0EF50060CBFD /* ChildViewController.swift */,
 				EAFEE6211B85EBBD004CD02E /* ChildWindowController.swift */,
 				EAFEE6251B85F77E004CD02E /* ProgressSheetViewController.swift */,
@@ -151,7 +148,6 @@
 				EAFEE6261B85F77E004CD02E /* ProgressSheetViewController.swift in Sources */,
 				EA57B5071B7E0EF50060CBFD /* ChildViewController.swift in Sources */,
 				EA1B7EB31B87146D00B81243 /* Task.swift in Sources */,
-				EAFEE6241B85F498004CD02E /* SheetSegue.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
