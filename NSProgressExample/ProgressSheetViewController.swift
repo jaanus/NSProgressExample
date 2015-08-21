@@ -46,9 +46,19 @@ class ProgressSheetViewController: NSViewController {
         setupProgressObserver()
     }
     
-    deinit {
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        
         if let progressSource = self.presentingViewController as? ProgressSheetInterface {
             progressSource.progress.removeObserver(self, forKeyPath: "fractionCompleted")
+            progressSource.progress.removeObserver(self, forKeyPath: "completedUnitCount")
+        }
+        
+    }
+    
+    deinit {
+        if let progressSource = self.presentingViewController as? ProgressSheetInterface {
+//            progressSource.progress.removeObserver(self, forKeyPath: "fractionCompleted")
         }
     }
 
@@ -73,6 +83,7 @@ class ProgressSheetViewController: NSViewController {
     func setupProgressObserver() {
         if let progressSource = self.presentingViewController as? ProgressSheetInterface {
             progressSource.progress.addObserver(self, forKeyPath: "fractionCompleted", options: [], context: &progressObservationContext)
+            progressSource.progress.addObserver(self, forKeyPath: "completedUnitCount", options: [], context: &progressObservationContext)
         }
     }
     
@@ -107,12 +118,26 @@ class ProgressSheetViewController: NSViewController {
             return
         }
         
-        dispatch_async(dispatch_get_main_queue()) {
-            [weak self] in
+//        dispatch_sync(dispatch_get_main_queue()) {
+        
             if let progress = object as? NSProgress {
-                self?.progressIndicatorView.doubleValue = progress.fractionCompleted
+                if keyPath == "fractionCompleted" {
+                    dispatch_async(dispatch_get_main_queue()) {
+                        [weak self] in
+                        self?.progressIndicatorView.doubleValue = progress.fractionCompleted
+                        
+                    }
+                } else if keyPath == "completedUnitCount" {
+                    if progress.completedUnitCount >= progress.totalUnitCount {
+                        // We are done with this indicator. Remove the observer.
+                        
+                        
+                    }
+                }
             }
-        }
+
+            
+//        }
     }
     
 }

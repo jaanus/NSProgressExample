@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="14F27" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="8173.3" systemVersion="15A263e" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="8173.3"/>
     </dependencies>
     <scenes>
@@ -691,7 +692,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2YS-Rw-BqG">
-                                <rect key="frame" x="18" y="233" width="68" height="17"/>
+                                <rect key="frame" x="18" y="233" width="65" height="17"/>
+                                <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Working…" id="q3T-7H-50p">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -703,6 +705,7 @@
                             <constraint firstItem="2YS-Rw-BqG" firstAttribute="leading" secondItem="dCa-PL-84n" secondAttribute="leading" constant="20" symbolic="YES" id="Ke8-yJ-Jrb"/>
                             <constraint firstItem="2YS-Rw-BqG" firstAttribute="top" secondItem="dCa-PL-84n" secondAttribute="top" constant="20" symbolic="YES" id="lyt-wi-ULd"/>
                         </constraints>
+                        <animations/>
                     </view>
                     <connections>
                         <outlet property="statusLabel" destination="2YS-Rw-BqG" id="oL6-SG-Sju"/>
@@ -723,6 +726,7 @@
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="H2X-Ho-UdC">
                                 <rect key="frame" x="14" y="222" width="70" height="32"/>
+                                <animations/>
                                 <buttonCell key="cell" type="push" title="Start" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="zxB-Ad-YsS">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -736,6 +740,7 @@
                             <constraint firstItem="H2X-Ho-UdC" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="2CI-Pg-zZz"/>
                             <constraint firstItem="H2X-Ho-UdC" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" symbolic="YES" id="zWU-kU-4rx"/>
                         </constraints>
+                        <animations/>
                     </view>
                     <connections>
                         <segue destination="8ym-gb-b9j" kind="sheet" identifier="presentProgressSheet" id="nqe-CD-WeP"/>
@@ -758,9 +763,11 @@
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="256" id="mg4-Yh-SNr"/>
                                 </constraints>
+                                <animations/>
                             </progressIndicator>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fZx-Ic-Jyp">
-                                <rect key="frame" x="116" y="75" width="88" height="17"/>
+                                <rect key="frame" x="118" y="75" width="83" height="17"/>
+                                <animations/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Doing work…" id="yoQ-22-YZy">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -768,10 +775,12 @@
                                 </textFieldCell>
                             </textField>
                             <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VQN-ri-h3B">
-                                <rect key="frame" x="87" y="20" width="146" height="21"/>
+                                <rect key="frame" x="88.5" y="20" width="143" height="21"/>
+                                <animations/>
                                 <middleViews>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ye-df-Kis">
-                                        <rect key="frame" x="-6" y="-7" width="83" height="32"/>
+                                        <rect key="frame" x="-6" y="-7" width="82" height="32"/>
+                                        <animations/>
                                         <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="32m-Am-Vek">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -783,10 +792,9 @@ Gw
                                             <action selector="cancel:" target="8ym-gb-b9j" id="ZmC-9B-SHP"/>
                                         </connections>
                                     </button>
-                                </middleViews>
-                                <endViews>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AWF-s9-Uj2">
-                                        <rect key="frame" x="-6" y="-7" width="79" height="32"/>
+                                        <rect key="frame" x="72" y="-7" width="77" height="32"/>
+                                        <animations/>
                                         <buttonCell key="cell" type="push" title="Pause" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="lTL-TB-NSv">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
@@ -795,7 +803,7 @@ Gw
                                             <action selector="pauseOrResume:" target="8ym-gb-b9j" id="D7t-Rr-0EI"/>
                                         </connections>
                                     </button>
-                                </endViews>
+                                </middleViews>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
                                     <integer value="1000"/>
@@ -817,6 +825,7 @@ Gw
                             <constraint firstAttribute="trailing" secondItem="pgy-UE-EEO" secondAttribute="trailing" constant="20" symbolic="YES" id="tdc-RH-z4K"/>
                             <constraint firstItem="pgy-UE-EEO" firstAttribute="top" secondItem="fZx-Ic-Jyp" secondAttribute="bottom" constant="8" symbolic="YES" id="wci-FN-mFl"/>
                         </constraints>
+                        <animations/>
                     </view>
                     <connections>
                         <outlet property="controlsContainerBottomMarginConstraint" destination="Hhe-ig-aUn" id="AZV-5u-5X6"/>

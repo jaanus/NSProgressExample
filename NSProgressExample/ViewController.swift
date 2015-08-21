@@ -34,19 +34,20 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
         worker1?.showWindow(self)
         worker2?.showWindow(self)
         
-        progress = NSProgress()
         
         if let worker1 = worker1 as? ChildTaskInterface, worker2 = worker2 as? ChildTaskInterface {
+
+            progress = NSProgress(totalUnitCount: 10)
             
 //            progress.becomeCurrentWithPendingUnitCount(2)
             
             worker1.startTaskWithDuration(3)
-            worker2.startTaskWithDuration(4)
+            worker2.startTaskWithDuration(14)
             
 //            progress.resignCurrent()
             
-//            progress.addChild(worker1.progress, withPendingUnitCount: 3)
-//            progress.addChild(worker2.progress, withPendingUnitCount: 4)
+            progress.addChild(worker1.progress, withPendingUnitCount: 1)
+            progress.addChild(worker2.progress, withPendingUnitCount: 9)
             
         }
         
@@ -86,7 +87,8 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
     // MARK: - ProgressSheetDelegate
     
     func cancel() {
-        
+        progress.cancel()
+        self.dismissViewController((self.presentedViewControllers?.first)!)
     }
     
     func pause() {

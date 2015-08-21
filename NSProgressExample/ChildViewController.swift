@@ -67,20 +67,29 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
     // MARK: - Private utilities
     
     private func taskFinished(cancelled cancelled: Bool) {
-        // In any case, if the task is done, we shouldn’t observe its progress any more
-        task?.progress.removeObserver(self, forKeyPath: "completedUnitCount")
         
-        // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
-        // This assumes that the only possible presented sheet is the progress sheet.
-        dismissViewController((self.presentedViewControllers?.first)!)
-
-        task = nil
+        // Can’t guarantee the queue where this arrives, so dispatch to main to be safe.
         
-        if cancelled {
-            self.statusLabel.stringValue = "The task was cancelled."
-        } else {
-            self.statusLabel.stringValue = "The answer is 42."
+        dispatch_async(dispatch_get_main_queue()) {
+            
+            [weak self] in
+            
+            // In any case, if the task is done, we shouldn’t observe its progress any more
+            self?.task?.progress.removeObserver(self!, forKeyPath: "completedUnitCount")
+            
+            // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
+            // This assumes that the only possible presented sheet is the progress sheet.
+            self?.dismissViewController((self?.presentedViewControllers?.first)!)
+            
+            self?.task = nil
+            
+            if cancelled {
+                self?.statusLabel.stringValue = "The task was cancelled."
+            } else {
+                self?.statusLabel.stringValue = "The answer is 42."
+            }
         }
+        
     }
     
     
@@ -96,10 +105,7 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
         if let progress = object as? NSProgress {
             if progress.completedUnitCount >= progress.totalUnitCount {
                 // work is done.
-                dispatch_async(dispatch_get_main_queue()) {
-                    [weak self] in
-                    self?.taskFinished(cancelled: false)
-                }
+                self.taskFinished(cancelled: false)
             }
         }
     }
