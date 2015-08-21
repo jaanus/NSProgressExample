@@ -8,7 +8,10 @@
 
 import Foundation
 
-/// A long-running task that reports its progress with NSProgress. Can have an external cancellation handler, but manages its own pausing handler.
+/** A long-running task that reports its progress with NSProgress.
+
+It internally uses the pausing, resume and cancellation handler blocks, so don’t set those on the NSProgress object. If you need to observe the progress or properties, use KVO.
+*/
 class Task: NSObject, NSProgressReporting {
     
     let progress: NSProgress
