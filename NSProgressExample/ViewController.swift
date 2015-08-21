@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class ViewController: NSViewController, NSProgressReporting, ProgressSheetInterface {
+class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDelegate {
 
     // Use progress reporting because the sheet asks for our progress
     var progress = NSProgress()
@@ -34,9 +34,20 @@ class ViewController: NSViewController, NSProgressReporting, ProgressSheetInterf
         worker1?.showWindow(self)
         worker2?.showWindow(self)
         
+        progress = NSProgress()
+        
         if let worker1 = worker1 as? ChildTaskInterface, worker2 = worker2 as? ChildTaskInterface {
+            
+//            progress.becomeCurrentWithPendingUnitCount(2)
+            
             worker1.startTaskWithDuration(3)
             worker2.startTaskWithDuration(4)
+            
+//            progress.resignCurrent()
+            
+//            progress.addChild(worker1.progress, withPendingUnitCount: 3)
+//            progress.addChild(worker2.progress, withPendingUnitCount: 4)
+            
         }
         
         performSegueWithIdentifier("presentProgressSheet", sender: self)
@@ -51,14 +62,7 @@ class ViewController: NSViewController, NSProgressReporting, ProgressSheetInterf
         worker1?.window?.setFrameTopLeftPoint(NSPoint(x: x, y: y))
 
         let y2 = CGRectGetMinY((worker1!.window?.frame)!) - 32
-        worker2?.window?.setFrameTopLeftPoint(NSPoint(x: x, y: y2))
-        
-//        CGFloat x = CGRectGetMaxX(self.window.frame) + 32;
-//        CGFloat y = CGRectGetMaxY(self.window.frame);
-//        [self.worker1.window setFrameTopLeftPoint:NSMakePoint(x, y)];
-//        
-//        CGFloat y2 = CGRectGetMinY(self.worker1.window.frame) - 32;
-//        [self.worker2.window setFrameTopLeftPoint:NSMakePoint(x, y2)];
+        worker2?.window?.setFrameTopLeftPoint(NSPoint(x: x, y: y2))        
     }
     
     
@@ -75,6 +79,22 @@ class ViewController: NSViewController, NSProgressReporting, ProgressSheetInterf
         get {
             return nil
         }
+    }
+    
+    
+    
+    // MARK: - ProgressSheetDelegate
+    
+    func cancel() {
+        
+    }
+    
+    func pause() {
+        
+    }
+    
+    func resume() {
+        
     }
     
 }

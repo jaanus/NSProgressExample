@@ -12,34 +12,23 @@ protocol ChildTaskInterface: NSProgressReporting {
     func startTaskWithDuration(duration: Float)
 }
 
-// Why do I have to explicitly add NSProgressReporting here? ChildTaskInterface should cover it, no?
-class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetInterface, NSProgressReporting {
+private var progressObservationContext = 0
+
+class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetInterface {
 
     @IBOutlet weak var statusLabel: NSTextField!
     
+    var task: Task?
+    
     // NSProgressReporting
-    var progress = NSProgress()
-    
-    var secondsToRun: Float = 0
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        
-        // Do view setup here.
+    var progress: NSProgress {
+        get {
+            if let progress = task?.progress {
+                return progress
+            }
+            fatalError("Requesting child progress before it is available")
+        }
     }
-    
-    override func viewDidAppear() {
-        
-//        longComputationTask()
-        
-        delay(2, closure: {
-            print("oh hai")
-
-        })
-        
-    }
-    
     
     // MARK: - ProgressSheetInterface
     
@@ -54,62 +43,64 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
             return "Doing child work…"
         }
     }
+
     
-    func delay(delay:Double, closure:()->()) {
-        dispatch_after(
-            dispatch_time(
-                DISPATCH_TIME_NOW,
-                Int64(delay * Double(NSEC_PER_SEC))
-            ),
-            dispatch_get_main_queue(), closure)
-    }
+    
+    // MARK: - ChildTaskInterface
     
     func startTaskWithDuration(taskDuration: Float) {
-        let iterationLength = Float(0.05)
-        let iterationCount: Int64 = Int64(taskDuration / iterationLength)
         
-        progress = NSProgress(totalUnitCount: iterationCount)
-
-        // Should perform this segue only after the new progress property has created,
-        // so that the progress sheet would be observing the right progress object
-        self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
-
-        
-        progress.cancellationHandler = {
+        task = Task(duration: taskDuration)
+        task?.progress.cancellationHandler = {
             self.taskFinished(cancelled: true)
         }
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-
-            for var i : Int64 = self.progress.completedUnitCount; i < iterationCount; i++ {
-                guard !self.progress.cancelled else { return }
-                guard !self.progress.paused else { return }
-                
-                NSThread.sleepForTimeInterval(NSTimeInterval(iterationLength))
-                
-                self.progress.completedUnitCount++
-            }
-            
-            self.progress.cancellationHandler = nil
-            self.taskFinished(cancelled: false)
-
-        }
+        // Should perform this segue only after the new progress property has created,
+        // so that the progress sheet would be observing the right progress object
+        self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
         
+        self.task?.progress.addObserver(self, forKeyPath: "completedUnitCount", options: [], context: &progressObservationContext)
     }
     
-    func taskFinished(cancelled cancelled: Bool) {
-        dispatch_async(dispatch_get_main_queue()) {
-            
-            // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
-            // This assumes that the only possible presented sheet is the progress sheet.
-            self.dismissViewController((self.presentedViewControllers?.first)!)
-            
-            if cancelled {
-                self.statusLabel.stringValue = "The task was cancelled."
-            } else {
-                self.statusLabel.stringValue = "The answer is 42."
+    
+    
+    // MARK: - Private utilities
+    
+    private func taskFinished(cancelled cancelled: Bool) {
+        // In any case, if the task is done, we shouldn’t observe its progress any more
+        task?.progress.removeObserver(self, forKeyPath: "completedUnitCount")
+        
+        // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
+        // This assumes that the only possible presented sheet is the progress sheet.
+        dismissViewController((self.presentedViewControllers?.first)!)
+
+        task = nil
+        
+        if cancelled {
+            self.statusLabel.stringValue = "The task was cancelled."
+        } else {
+            self.statusLabel.stringValue = "The answer is 42."
+        }
+    }
+    
+    
+    
+    // MARK: - KVO
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        guard context == &progressObservationContext else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+
+        if let progress = object as? NSProgress {
+            if progress.completedUnitCount >= progress.totalUnitCount {
+                // work is done.
+                dispatch_async(dispatch_get_main_queue()) {
+                    [weak self] in
+                    self?.taskFinished(cancelled: false)
+                }
             }
-            
         }
     }
 }

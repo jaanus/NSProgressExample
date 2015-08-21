@@ -10,9 +10,15 @@ import Cocoa
 
 private var progressObservationContext = 0
 
-protocol ProgressSheetInterface {
+protocol ProgressSheetInterface: NSProgressReporting {
     var sheetUserInteractive: Bool { get }
     var sheetLabel: String? { get }
+}
+
+protocol ProgressSheetDelegate {
+    func cancel()
+    func pause()
+    func resume()
 }
 
 class ProgressSheetViewController: NSViewController {
@@ -21,6 +27,17 @@ class ProgressSheetViewController: NSViewController {
     @IBOutlet weak var sheetLabel: NSTextField!
     @IBOutlet weak var controlsContainerBottomMarginConstraint: NSLayoutConstraint!
     @IBOutlet weak var progressIndicatorView: NSProgressIndicator!
+    @IBOutlet weak var pauseOrResumeButton: NSButton!
+    
+    private var paused = false {
+        didSet {
+            if paused {
+                self.pauseOrResumeButton.title = "Resume"
+            } else {
+                self.pauseOrResumeButton.title = "Pause"
+            }
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,8 +47,8 @@ class ProgressSheetViewController: NSViewController {
     }
     
     deinit {
-        if let progressSource = self.presentingViewController {
-            progressSource.removeObserver(self, forKeyPath: "progress.fractionCompleted")
+        if let progressSource = self.presentingViewController as? ProgressSheetInterface {
+            progressSource.progress.removeObserver(self, forKeyPath: "fractionCompleted")
         }
     }
 
@@ -49,19 +66,40 @@ class ProgressSheetViewController: NSViewController {
             if let interfaceLabel = interfaceSource.sheetLabel {
                 sheetLabel.stringValue = interfaceLabel
             }
-
+            
         }
     }
     
     func setupProgressObserver() {
-        if let progressSource = self.presentingViewController {
-            progressSource.addObserver(self, forKeyPath: "progress.fractionCompleted", options: [], context: &progressObservationContext)
+        if let progressSource = self.presentingViewController as? ProgressSheetInterface {
+            progressSource.progress.addObserver(self, forKeyPath: "fractionCompleted", options: [], context: &progressObservationContext)
         }
     }
     
     
     
-    // MARK: Key-Value Observing
+    // MARK: - Actions
+    
+    @IBAction func cancel(sender: AnyObject) {
+        if let delegate = self.presentingViewController as? ProgressSheetDelegate {
+            delegate.cancel()
+        }
+    }
+    
+    @IBAction func pauseOrResume(sender: AnyObject) {
+        paused = !paused
+        if let delegate = self.presentingViewController as? ProgressSheetDelegate {
+            if paused {
+                delegate.pause()
+            } else {
+                delegate.resume()
+            }
+        }
+    }
+    
+    
+    
+    // MARK: - Key-Value Observing
     
     override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String: AnyObject]?, context: UnsafeMutablePointer<Void>) {
         guard context == &progressObservationContext else {
@@ -70,8 +108,9 @@ class ProgressSheetViewController: NSViewController {
         }
         
         dispatch_async(dispatch_get_main_queue()) {
-            if let progressSource = self.presentingViewController as? NSProgressReporting {
-                self.progressIndicatorView.doubleValue = progressSource.progress.fractionCompleted
+            [weak self] in
+            if let progress = object as? NSProgress {
+                self?.progressIndicatorView.doubleValue = progress.fractionCompleted
             }
         }
     }

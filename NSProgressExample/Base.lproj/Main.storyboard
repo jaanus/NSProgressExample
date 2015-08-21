@@ -779,6 +779,9 @@
 Gw
 </string>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="cancel:" target="8ym-gb-b9j" id="ZmC-9B-SHP"/>
+                                        </connections>
                                     </button>
                                 </middleViews>
                                 <endViews>
@@ -788,6 +791,9 @@ Gw
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
+                                        <connections>
+                                            <action selector="pauseOrResume:" target="8ym-gb-b9j" id="D7t-Rr-0EI"/>
+                                        </connections>
                                     </button>
                                 </endViews>
                                 <visibilityPriorities>
@@ -815,6 +821,7 @@ Gw
                     <connections>
                         <outlet property="controlsContainerBottomMarginConstraint" destination="Hhe-ig-aUn" id="AZV-5u-5X6"/>
                         <outlet property="controlsContainerView" destination="VQN-ri-h3B" id="L1d-WN-phg"/>
+                        <outlet property="pauseOrResumeButton" destination="AWF-s9-Uj2" id="7Gv-Ug-U0D"/>
                         <outlet property="progressIndicatorView" destination="pgy-UE-EEO" id="G6N-lv-Euq"/>
                         <outlet property="sheetLabel" destination="fZx-Ic-Jyp" id="eZh-Hy-XP5"/>
                     </connections>
