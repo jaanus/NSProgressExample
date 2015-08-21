@@ -70,7 +70,7 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
     
     // MARK: - ProgressSheetInterface
     
-    var sheetUserInteractive: Bool {
+    var sheetIsUserInteractive: Bool {
         get {
             return true
         }

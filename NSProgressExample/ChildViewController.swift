@@ -32,7 +32,7 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
     
     // MARK: - ProgressSheetInterface
     
-    var sheetUserInteractive: Bool {
+    var sheetIsUserInteractive: Bool {
         get {
             return false
         }
@@ -51,8 +51,10 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
     func startTaskWithDuration(taskDuration: Float) {
         
         task = Task(duration: taskDuration)
+        
+        // Fixme: don’t use a handler, use KVO
         task?.progress.cancellationHandler = {
-            self.taskFinished(cancelled: true)
+            self.taskFinished(completed: false)
         }
         
         // Should perform this segue only after the new progress property has created,
@@ -66,7 +68,7 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
     
     // MARK: - Private utilities
     
-    private func taskFinished(cancelled cancelled: Bool) {
+    private func taskFinished(completed completed: Bool) {
         
         // Can’t guarantee the queue where this arrives, so dispatch to main to be safe.
         
@@ -83,7 +85,7 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
             
             self?.task = nil
             
-            if cancelled {
+            if !completed {
                 self?.statusLabel.stringValue = "The task was cancelled."
             } else {
                 self?.statusLabel.stringValue = "The answer is 42."
@@ -104,8 +106,8 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
 
         if let progress = object as? NSProgress {
             if progress.completedUnitCount >= progress.totalUnitCount {
-                // work is done.
-                self.taskFinished(cancelled: false)
+                // Work is done.
+                self.taskFinished(completed: true)
             }
         }
     }

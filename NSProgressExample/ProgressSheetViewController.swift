@@ -11,7 +11,7 @@ import Cocoa
 private var progressObservationContext = 0
 
 protocol ProgressSheetInterface: NSProgressReporting {
-    var sheetUserInteractive: Bool { get }
+    var sheetIsUserInteractive: Bool { get }
     var sheetLabel: String? { get }
 }
 
@@ -51,20 +51,12 @@ class ProgressSheetViewController: NSViewController {
         
         if let progressSource = self.presentingViewController as? ProgressSheetInterface {
             progressSource.progress.removeObserver(self, forKeyPath: "fractionCompleted")
-            progressSource.progress.removeObserver(self, forKeyPath: "completedUnitCount")
         }
-        
     }
     
-    deinit {
-        if let progressSource = self.presentingViewController as? ProgressSheetInterface {
-//            progressSource.progress.removeObserver(self, forKeyPath: "fractionCompleted")
-        }
-    }
-
     func setupInterface() {
         if let interfaceSource = self.presentingViewController as? ProgressSheetInterface {
-            if !interfaceSource.sheetUserInteractive {
+            if !interfaceSource.sheetIsUserInteractive {
                 
                 // if the buttons are not to be shown, hide them,
                 // and also deactivate the constraint that is holding them in place,
@@ -83,7 +75,6 @@ class ProgressSheetViewController: NSViewController {
     func setupProgressObserver() {
         if let progressSource = self.presentingViewController as? ProgressSheetInterface {
             progressSource.progress.addObserver(self, forKeyPath: "fractionCompleted", options: [], context: &progressObservationContext)
-            progressSource.progress.addObserver(self, forKeyPath: "completedUnitCount", options: [], context: &progressObservationContext)
         }
     }
     
@@ -117,27 +108,14 @@ class ProgressSheetViewController: NSViewController {
             super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
             return
         }
-        
-//        dispatch_sync(dispatch_get_main_queue()) {
-        
-            if let progress = object as? NSProgress {
-                if keyPath == "fractionCompleted" {
-                    dispatch_async(dispatch_get_main_queue()) {
-                        [weak self] in
-                        self?.progressIndicatorView.doubleValue = progress.fractionCompleted
-                        
-                    }
-                } else if keyPath == "completedUnitCount" {
-                    if progress.completedUnitCount >= progress.totalUnitCount {
-                        // We are done with this indicator. Remove the observer.
-                        
-                        
-                    }
+    
+        if let progress = object as? NSProgress {
+            if keyPath == "fractionCompleted" {
+                dispatch_async(dispatch_get_main_queue()) {
+                    [weak self] in
+                    self?.progressIndicatorView.doubleValue = progress.fractionCompleted
                 }
             }
-
-            
-//        }
+        }
     }
-    
 }
