@@ -70,6 +70,7 @@ class Task: NSObject, NSProgressReporting {
         if let progress = object as? NSProgress {
             if keyPath == "paused" {
                 if !progress.paused {
+                    // When the progress goes from “paused” to “resumed” state, continue running the task.
                     runTask()
                 }
             }
