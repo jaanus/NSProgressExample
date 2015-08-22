@@ -16,6 +16,10 @@ private var progressObservationContext = 0
 
 class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDelegate {
 
+    @IBOutlet weak var firstTaskDurationField: NSTextField!
+    @IBOutlet weak var secondTaskDurationField: NSTextField!
+    @IBOutlet weak var taskWeightSlider: NSSlider!
+    
     // Use progress reporting because the sheet asks for our progress
     var progress = NSProgress()
     
@@ -24,6 +28,7 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // The child window controllers are long-lived.
         worker1 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
         worker2 = self.storyboard?.instantiateControllerWithIdentifier("Worker") as? NSWindowController
     }
@@ -35,16 +40,25 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
         
         if let worker1 = worker1 as? ChildTaskInterface, worker2 = worker2 as? ChildTaskInterface {
 
-            progress = NSProgress(totalUnitCount: 10)
+            // The actual durations for each task.
+            let firstTaskDuration = firstTaskDurationField.floatValue
+            let secondTaskDuration = secondTaskDurationField.floatValue
+            
+            // The weights to give to each task in accounting for their progress.
+            let totalWeight = Int64(taskWeightSlider.maxValue)
+            let secondTaskWeight = Int64(taskWeightSlider.integerValue)
+            let firstTaskWeight = totalWeight - secondTaskWeight
+            
+            progress = NSProgress(totalUnitCount: totalWeight)
             
             progress.addObserver(self, forKeyPath: "completedUnitCount", options: [], context: &progressObservationContext)
             progress.addObserver(self, forKeyPath: "cancelled", options: [], context: &progressObservationContext)
             
-            worker1.startTaskWithDuration(3)
-            worker2.startTaskWithDuration(14)
+            worker1.startTaskWithDuration(firstTaskDuration)
+            worker2.startTaskWithDuration(secondTaskDuration)
             
-            progress.addChild(worker1.progress, withPendingUnitCount: 1)
-            progress.addChild(worker2.progress, withPendingUnitCount: 9)
+            progress.addChild(worker1.progress, withPendingUnitCount: firstTaskWeight)
+            progress.addChild(worker2.progress, withPendingUnitCount: secondTaskWeight)
             
         }
         
@@ -111,7 +125,6 @@ class ViewController: NSViewController, ProgressSheetInterface, ProgressSheetDel
     
     
     // MARK: - Utilities
-    
     
     func fixWindowPositions() {
         let myWindowFrame = self.view.window?.frame as NSRect!
