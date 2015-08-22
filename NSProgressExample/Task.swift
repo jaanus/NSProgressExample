@@ -8,10 +8,13 @@
 
 import Foundation
 
-/** A long-running task that reports its progress with NSProgress.
 
-It internally uses the pausing, resume and cancellation handler blocks, so don’t set those on the NSProgress object. If you need to observe the progress or properties, use KVO.
-*/
+
+private var progressObservationContext = 0
+
+
+
+/// A long-running task that reports its progress with NSProgress. Is pausable/resumable and cancellable.
 class Task: NSObject, NSProgressReporting {
     
     let progress: NSProgress
@@ -21,10 +24,15 @@ class Task: NSObject, NSProgressReporting {
     init(duration: Float) {
         iterationCount = Int64(duration / iterationLength)
         progress = NSProgress(totalUnitCount: iterationCount)
-
+        progress.cancellable = true
+        progress.pausable = true
+        
         super.init()
+
+        progress.addObserver(self, forKeyPath: "paused", options: [], context: &progressObservationContext)
         
         runTask()
+        
     }
     
     /// Run or continue the task.
@@ -43,7 +51,28 @@ class Task: NSObject, NSProgressReporting {
     }
     
     deinit {
+        progress.removeObserver(self, forKeyPath: "paused")
+        
         // Verify that the task is correctly released.
         // print("Task is going away.")
+    }
+    
+    
+    
+    // Mark: - KVO
+    
+    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String: AnyObject]?, context: UnsafeMutablePointer<Void>) {
+        guard context == &progressObservationContext else {
+            super.observeValueForKeyPath(keyPath, ofObject: object, change: change, context: context)
+            return
+        }
+        
+        if let progress = object as? NSProgress {
+            if keyPath == "paused" {
+                if !progress.paused {
+                    runTask()
+                }
+            }
+        }
     }
 }

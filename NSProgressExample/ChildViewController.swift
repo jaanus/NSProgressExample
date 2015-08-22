@@ -52,16 +52,12 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
         
         task = Task(duration: taskDuration)
         
-        // Fixme: don’t use a handler, use KVO
-        task?.progress.cancellationHandler = {
-            self.taskFinished(completed: false)
-        }
-        
         // Should perform this segue only after the new progress property has created,
         // so that the progress sheet would be observing the right progress object
         self.performSegueWithIdentifier("presentProgressSheetFromChild", sender: self)
         
         self.task?.progress.addObserver(self, forKeyPath: "completedUnitCount", options: [], context: &progressObservationContext)
+        self.task?.progress.addObserver(self, forKeyPath: "cancelled", options: [], context: &progressObservationContext)
     }
     
     
@@ -78,6 +74,7 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
             
             // In any case, if the task is done, we shouldn’t observe its progress any more
             self?.task?.progress.removeObserver(self!, forKeyPath: "completedUnitCount")
+            self?.task?.progress.removeObserver(self!, forKeyPath: "cancelled")
             
             // Not sure how to efficiently reverse-segue in Cocoa, so let’s just do it the hardcoded way.
             // This assumes that the only possible presented sheet is the progress sheet.
@@ -91,7 +88,6 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
                 self?.statusLabel.stringValue = "The answer is 42."
             }
         }
-        
     }
     
     
@@ -105,9 +101,15 @@ class ChildViewController: NSViewController, ChildTaskInterface, ProgressSheetIn
         }
 
         if let progress = object as? NSProgress {
-            if progress.completedUnitCount >= progress.totalUnitCount {
-                // Work is done.
-                self.taskFinished(completed: true)
+            if keyPath == "completedUnitCount" {
+                if progress.completedUnitCount >= progress.totalUnitCount {
+                    // Work is done.
+                    self.taskFinished(completed: true)
+                }
+            } else if keyPath == "cancelled" {
+                if progress.cancelled {
+                    self.taskFinished(completed: false)
+                }
             }
         }
     }
